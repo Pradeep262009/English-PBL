@@ -1,0 +1,79 @@
+/* ==========================================================================
+   The Great Derangement - Projector Bright Theme Stylesheet
+   ========================================================================== */
+
+/* Custom Light Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f3ec;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1cbbe;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c2410c;
+}
+
+/* Background Atmosphere */
+body {
+  background-color: #fcfbf7;
+  color: #0f172a;
+}
+
+/* --------------------------------------------------------------------------
+   Presentation Deck Mode (Slide-by-Slide Mode for Live Presentations)
+   -------------------------------------------------------------------------- */
+body.deck-mode {
+  overflow: hidden !important;
+  height: 100vh;
+}
+
+body.deck-mode .presentation-slide {
+  display: none !important;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(12px) scale(0.99);
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.deck-mode .presentation-slide.active-slide {
+  display: flex !important;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* --------------------------------------------------------------------------
+   Continuous Scrollytelling Mode (Alternative)
+   -------------------------------------------------------------------------- */
+body.scroll-mode .presentation-slide {
+  display: flex !important;
+  opacity: 1;
+  transform: none;
+}
+
+/* Speaker Active Pill State */
+.speaker-pill.active {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+  border-color: #f59e0b !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Tornado Glitch FX */
+.tornado-shake {
+  animation: violentShake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes violentShake {
+  10%, 90% { transform: translate3d(-3px, 0, 0) rotate(-0.5deg); }
+  20%, 80% { transform: translate3d(4px, 0, 0) rotate(0.5deg); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0) rotate(-1deg); }
+  40%, 60% { transform: translate3d(5px, 0, 0) rotate(1deg); }
+}

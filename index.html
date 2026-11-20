@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Great Derangement | English PBL Presentation</title>
+  
+  <!-- Fonts: Playfair Display (Editorial Literary Serif), Newsreader & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- GSAP for Smooth Transitions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- Tailwind Configuration for Projector-Optimized Elegant Bright Theme -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bright: {
+              bg: '#fcfbf7',          // Warm crisp ivory/parchment background
+              surface: '#ffffff',     // Pure white card surfaces
+              subtle: '#f5f3ec',      // Soft tinted containers
+              border: '#e6e2d6',      // Subtle clean borders
+              borderStrong: '#d1cbbe',
+              textPrimary: '#0f172a', // Deep charcoal black (100% sharp on projectors)
+              textSecondary: '#334155',// High-contrast slate
+              textMuted: '#64748b',   // Legible secondary text
+              amber: '#c2410c',       // Warm terracotta / amber accent
+              amberLight: '#fef3c7',  // Soft highlight badge
+              emerald: '#047857',     // Forest green for SDGs/resilience
+              emeraldLight: '#ecfdf5',
+              navy: '#1e3a8a',
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            editorial: ['"Newsreader"', 'serif'],
+            display: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-bright-bg text-bright-textPrimary font-sans antialiased overflow-x-hidden selection:bg-amber-200 selection:text-amber-950">
+
+  <!-- Interactive Canvas Background for Light Ambient Particles -->
+  <canvas id="storm-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-white/95 backdrop-blur-md border border-bright-border px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm text-bright-textPrimary">
+    <i data-lucide="info" class="w-4 h-4 text-amber-600"></i>
+    <span id="toast-msg">Notification</span>
+  </div>
+
+  <!-- Persistent Top Navigation Bar (Clean & Projector-Crisp) -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-bright-bg/90 backdrop-blur-md border-b border-bright-border transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Chapter Tag -->
+      <div class="flex items-center gap-3">
+        <a href="#slide-0" onclick="goToSlide(0); return false;" class="group flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 to-amber-500 flex items-center justify-center font-serif font-bold text-white text-sm shadow-md group-hover:scale-105 transition-transform">
+            GD
+          </div>
+          <div class="flex flex-col">
+            <span class="font-serif tracking-wide text-xs sm:text-sm font-bold text-bright-textPrimary group-hover:text-amber-700 transition-colors">The Great Derangement</span>
+            <span class="text-[10px] text-bright-textMuted uppercase tracking-widest font-medium">Amitav Ghosh · Chapter 1</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Speaker Direct Jump (1-5) -->
+      <nav class="hidden md:flex items-center gap-1 bg-white/80 p-1 rounded-full border border-bright-border text-xs shadow-sm">
+        <button onclick="goToSlide(2)" class="speaker-pill px-3 py-1 rounded-full text-slate-700 hover:text-black hover:bg-stone-100 transition-all flex items-center gap-1.5" data-speaker="1">
+          <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-mono text-[10px] font-bold flex items-center justify-center">1</span>
+          <span class="font-medium">Kiran</span>
+        </button>
+        <button onclick="goToSlide(3)" class="speaker-pill px-3 py-1 rounded-full text-slate-700 hover:text-black hover:bg-stone-100 transition-all flex items-center gap-1.5" data-speaker="2">
+          <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-mono text-[10px] font-bold flex items-center justify-center">2</span>
+          <span class="font-medium">Suriya</span>
+        </button>
+        <button onclick="goToSlide(4)" class="speaker-pill px-3 py-1 rounded-full text-slate-700 hover:text-black hover:bg-stone-100 transition-all flex items-center gap-1.5" data-speaker="3">
+          <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-mono text-[10px] font-bold flex items-center justify-center">3</span>
+          <span class="font-medium">Hari</span>
+        </button>
+        <button onclick="goToSlide(5)" class="speaker-pill px-3 py-1 rounded-full text-slate-700 hover:text-black hover:bg-stone-100 transition-all flex items-center gap-1.5" data-speaker="4">
+          <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-mono text-[10px] font-bold flex items-center justify-center">4</span>
+          <span class="font-medium">Yogesh</span>
+        </button>
+        <button onclick="goToSlide(6)" class="speaker-pill px-3 py-1 rounded-full text-slate-700 hover:text-black hover:bg-stone-100 transition-all flex items-center gap-1.5" data-speaker="5">
+          <span class="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-mono text-[10px] font-bold flex items-center justify-center">5</span>
+          <span class="font-medium">Pradeep</span>
+        </button>
+      </nav>
+
+      <!-- Right Header Controls: Discreet Slide Counter, Notes, Fullscreen -->
+      <div class="flex items-center gap-2.5">
+        
+        <!-- Discreet Slide Indicator for Presenter -->
+        <div class="px-2.5 py-1 rounded-full bg-stone-100 border border-stone-200 text-[11px] font-mono font-semibold text-stone-700 flex items-center gap-1 shadow-sm">
+          <span id="current-slide-num" class="text-amber-700 font-bold">01</span>
+          <span class="text-stone-400">/</span>
+          <span id="total-slide-num">09</span>
+        </div>
+
+        <!-- Speaker Notes Drawer Button [P] -->
+        <button onclick="toggleSpeakerNotes()" class="p-2 rounded-lg text-slate-700 hover:text-black bg-white border border-bright-border hover:border-amber-400 shadow-sm transition-all" title="Speaker Cue Notes [Press P]">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Ambient Sound FX Toggle [M] -->
+        <button id="sound-btn" onclick="toggleAtmosphereAudio()" class="p-2 rounded-lg text-slate-700 hover:text-amber-700 bg-white border border-bright-border hover:border-amber-400 shadow-sm transition-all" title="Toggle Ambient Audio [Press M]">
+          <i id="sound-icon" data-lucide="volume-x" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Fullscreen Button [F] -->
+        <button onclick="toggleFullScreen()" class="p-2 rounded-lg text-slate-700 hover:text-black bg-white border border-bright-border hover:border-amber-400 shadow-sm transition-all" title="Fullscreen [Press F]">
+          <i data-lucide="maximize" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Live Reading Progress Bar -->
+    <div class="w-full bg-stone-200 h-0.5">
+      <div id="progress-bar" class="h-0.5 bg-gradient-to-r from-amber-600 via-orange-600 to-emerald-600 w-0 transition-all duration-200"></div>
+    </div>
+  </header>
+
+  <!-- Slide-out Speaker Cue Cards & Notes Panel [P] -->
+  <div id="speaker-notes-panel" class="fixed right-0 top-16 bottom-0 w-80 sm:w-96 z-50 bg-white/95 backdrop-blur-xl border-l border-bright-border p-6 shadow-2xl transform translate-x-full transition-transform duration-300 overflow-y-auto">
+    <div class="flex items-center justify-between pb-4 border-b border-bright-border">
+      <div class="flex items-center gap-2">
+        <i data-lucide="mic" class="w-4 h-4 text-amber-700"></i>
+        <h3 class="font-serif font-bold text-sm text-bright-textPrimary uppercase tracking-wider">Speaker Cue Card</h3>
+      </div>
+      <button onclick="toggleSpeakerNotes()" class="p-1 rounded-lg text-slate-400 hover:text-black">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Active Speaker Spotlight -->
+    <div class="mt-4 p-3.5 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-between">
+      <div>
+        <span class="text-[10px] uppercase font-bold tracking-widest text-amber-800">Current Lead</span>
+        <h4 id="note-speaker-name" class="font-bold text-base text-stone-900">Kiran</h4>
+      </div>
+      <span id="note-speaker-badge" class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-amber-600 text-white shadow-sm">Slide 03</span>
+    </div>
+
+    <!-- Target Time -->
+    <div class="mt-4 p-3 rounded-lg bg-stone-50 border border-stone-200 flex items-center justify-between text-xs">
+      <span class="text-slate-600 font-medium">Target Time:</span>
+      <span class="font-mono text-amber-800 font-bold">1.5 - 2 mins</span>
+    </div>
+
+    <!-- Talking Points -->
+    <div class="mt-5 space-y-4">
+      <h5 class="text-xs font-bold text-slate-600 uppercase tracking-wider">Key Speaking Cues</h5>
+      <ul id="note-points-list" class="space-y-3 text-sm text-slate-700 leading-relaxed">
+        <!-- Injected dynamically via JavaScript -->
+      </ul>
+
+      <div class="mt-6 p-3.5 rounded-xl bg-stone-50 border border-stone-200 text-xs leading-relaxed text-slate-600">
+        <strong class="text-amber-800 block mb-1">💡 Presentation Delivery Tip:</strong>
+        <span id="note-delivery-tip">Start with vivid sensory language — describe the calm Delhi sky suddenly warping into a violent vortex.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PRESENTATION CONTAINER -->
+  <main id="presentation-container" class="relative z-10 w-full min-h-screen">
+
+    <!-- ==========================================
+         SLIDE 1 (INDEX 0): HERO / COVER
+         ========================================== -->
+    <section id="slide-0" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative overflow-hidden" data-slide-index="0">
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        
+        <!-- Chapter Tag -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-bright-border text-xs uppercase tracking-widest text-amber-800 font-semibold mb-8 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+          <span>Amitav Ghosh · Chapter 1</span>
+        </div>
+
+        <!-- Main Title -->
+        <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-bright-textPrimary mb-6 leading-[1.08]">
+          The Great <span class="bg-gradient-to-r from-amber-700 via-orange-600 to-amber-800 bg-clip-text text-transparent italic">Derangement</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="font-editorial text-2xl sm:text-3xl text-bright-textSecondary mb-10 max-w-2xl mx-auto leading-relaxed">
+          Climate Change and the <span class="text-amber-800 font-semibold border-b-2 border-amber-500/50 pb-0.5">Unthinkable</span>
+        </p>
+
+        <!-- Divider Bar matching original slides -->
+        <div class="w-20 h-1.5 bg-gradient-to-r from-amber-600 to-orange-600 mx-auto rounded-full mb-10 shadow-sm"></div>
+
+        <!-- Presenters Team Card -->
+        <div class="p-6 rounded-2xl bg-white/90 backdrop-blur-md border border-bright-border max-w-xl mx-auto shadow-md">
+          <span class="text-xs uppercase tracking-widest text-bright-textMuted block mb-3 font-bold">Presented by</span>
+          <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-sm font-semibold text-bright-textPrimary">
+            <span class="px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">Kiran</span>
+            <span class="text-stone-300">·</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">Suriya</span>
+            <span class="text-stone-300">·</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">Hari</span>
+            <span class="text-stone-300">·</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">Yogesh</span>
+            <span class="text-stone-300">·</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900">Pradeep</span>
+          </div>
+        </div>
+
+        <!-- Key Navigation Hint -->
+        <div class="mt-12 flex items-center justify-center gap-2 text-xs font-medium text-slate-500">
+          <span>Press</span>
+          <kbd class="px-2 py-1 rounded bg-white border border-stone-300 text-stone-800 font-mono shadow-sm">">→</kbd>
+          <span>or</span>
+          <kbd class="px-2 py-1 rounded bg-white border border-stone-300 text-stone-800 font-mono shadow-sm">Space</kbd>
+          <span>to advance</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 2 (INDEX 1): PRESENTATION OVERVIEW
+         ========================================== -->
+    <section id="slide-1" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="1">
+      <div class="max-w-7xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-12 text-center md:text-left">
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary mb-3">Presentation Overview</h2>
+          <p class="font-editorial text-xl sm:text-2xl text-bright-textSecondary">Five speakers tracing climate reality from literature to global action</p>
+        </div>
+
+        <!-- 5 Speaker Roadmap Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          
+          <!-- Speaker 01: Kiran -->
+          <div onclick="goToSlide(2)" class="cursor-pointer group p-6 rounded-2xl bg-white hover:bg-stone-50 border border-bright-border hover:border-amber-500/60 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono font-bold text-amber-700 tracking-wider">01 · Kiran</span>
+                <span class="p-2 rounded-lg bg-amber-50 text-amber-700 group-hover:scale-110 transition-transform">
+                  <i data-lucide="cloud-lightning" class="w-4 h-4"></i>
+                </span>
+              </div>
+              <h3 class="font-serif font-bold text-lg text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">1978 Delhi Tornado</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Disrupting normal reality and testing the boundaries of human expectation.</p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-amber-700 font-bold">
+              <span>View Slide</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Speaker 02: Suriya -->
+          <div onclick="goToSlide(3)" class="cursor-pointer group p-6 rounded-2xl bg-white hover:bg-stone-50 border border-bright-border hover:border-amber-500/60 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono font-bold text-amber-700 tracking-wider">02 · Suriya</span>
+                <span class="p-2 rounded-lg bg-amber-50 text-amber-700 group-hover:scale-110 transition-transform">
+                  <i data-lucide="book-open" class="w-4 h-4"></i>
+                </span>
+              </div>
+              <h3 class="font-serif font-bold text-lg text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">The Unthinkable</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Modern fiction's blind spot and the banishment of climate extremes.</p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-amber-700 font-bold">
+              <span>View Slide</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Speaker 03: Hari -->
+          <div onclick="goToSlide(4)" class="cursor-pointer group p-6 rounded-2xl bg-white hover:bg-stone-50 border border-bright-border hover:border-amber-500/60 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono font-bold text-amber-700 tracking-wider">03 · Hari</span>
+                <span class="p-2 rounded-lg bg-amber-50 text-amber-700 group-hover:scale-110 transition-transform">
+                  <i data-lucide="split" class="w-4 h-4"></i>
+                </span>
+              </div>
+              <h3 class="font-serif font-bold text-lg text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">Imagination Gap</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Science versus cultural stories: closing the dangerous divide.</p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-amber-700 font-bold">
+              <span>View Slide</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Speaker 04: Yogesh -->
+          <div onclick="goToSlide(5)" class="cursor-pointer group p-6 rounded-2xl bg-white hover:bg-stone-50 border border-bright-border hover:border-amber-500/60 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono font-bold text-amber-700 tracking-wider">04 · Yogesh</span>
+                <span class="p-2 rounded-lg bg-amber-50 text-amber-700 group-hover:scale-110 transition-transform">
+                  <i data-lucide="building-2" class="w-4 h-4"></i>
+                </span>
+              </div>
+              <h3 class="font-serif font-bold text-lg text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">Viksit Bharat 2047</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">Climate-resilient development and securing India's socioeconomic future.</p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-amber-700 font-bold">
+              <span>View Slide</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+          <!-- Speaker 05: Pradeep -->
+          <div onclick="goToSlide(6)" class="cursor-pointer group p-6 rounded-2xl bg-white hover:bg-stone-50 border border-bright-border hover:border-amber-500/60 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-mono font-bold text-amber-700 tracking-wider">05 · Pradeep</span>
+                <span class="p-2 rounded-lg bg-amber-50 text-amber-700 group-hover:scale-110 transition-transform">
+                  <i data-lucide="globe-2" class="w-4 h-4"></i>
+                </span>
+              </div>
+              <h3 class="font-serif font-bold text-lg text-stone-900 mb-2 group-hover:text-amber-800 transition-colors">Global SDGs</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">SDG 11 & 13 alignment: linking national policy to global sustainability.</p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-amber-700 font-bold">
+              <span>View Slide</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 3 (INDEX 2): SPEAKER 1 - KIRAN
+         ========================================== -->
+    <section id="slide-2" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="2">
+      <div class="max-w-6xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-8">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300">Speaker 1 · Kiran</span>
+            <span class="text-slate-500 font-medium">Disrupting Normal Reality</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary">The 1978 Delhi Tornado</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left: Image Box -->
+          <div class="lg:col-span-5 relative group">
+            <div class="relative overflow-hidden rounded-2xl border border-bright-border shadow-md bg-stone-100 aspect-[4/3]">
+              <img src="https://images.pexels.com/photos/17835164/pexels-photo-17835164/free-photo-of-dark-clouds-over-city.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                   alt="Dark storm clouds over city" 
+                   class="w-full h-full object-cover">
+              
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+              
+              <!-- Info Badge -->
+              <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200 text-xs shadow-md">
+                <div class="flex items-center justify-between text-amber-800 font-mono font-bold mb-1">
+                  <span>March 17, 1978 · North Delhi</span>
+                  <span class="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded">Unprecedented</span>
+                </div>
+                <p class="text-slate-700 text-[11px] leading-tight">Amitav Ghosh witnesses a sudden, violent vortex tearing through the university campus.</p>
+              </div>
+
+              <!-- Interactive Simulator Trigger -->
+              <button onclick="triggerTornadoGlitch()" class="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-white/90 hover:bg-amber-600 hover:text-white text-stone-900 text-[11px] font-bold border border-stone-300 shadow-sm transition-all flex items-center gap-1.5">
+                <i data-lucide="zap" class="w-3 h-3 text-amber-600 group-hover:text-white"></i>
+                <span>Simulate Vortex</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Key Points (Matching Slide 3) -->
+          <div class="lg:col-span-7 space-y-4">
+            
+            <!-- Point 1 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-amber-400 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-amber-50 text-amber-700 mt-0.5">
+                  <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">Unprecedented Event</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    A sudden violent tornado struck Delhi in 1978 — a meteorological phenomenon virtually unseen in the historical memory of the city.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Point 2 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-amber-400 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-amber-50 text-amber-700 mt-0.5">
+                  <i data-lucide="eye-off" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">Shattered Reality</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    The extreme violence of the storm felt completely surreal and untellable to witnesses, defying their everyday framework of reality.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-amber-400 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-amber-50 text-amber-700 mt-0.5">
+                  <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">False Dismissal</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    Society quickly classified the disaster as an isolated "freak accident," avoiding the unsettling truth of an increasingly unstable climate.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Point 4: Core Diagnosis Highlight -->
+            <div class="p-5 rounded-xl bg-amber-50/80 border border-amber-300 shadow-sm">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-amber-600 text-white mt-0.5 font-bold shadow-sm">
+                  <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-amber-900 text-base mb-1">Core Diagnosis</h4>
+                  <p class="text-stone-800 text-sm font-medium leading-relaxed">
+                    The climate crisis is not merely an environmental emergency — it is fundamentally a cultural, imaginative, and narrative failure.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 4 (INDEX 3): SPEAKER 2 - SURIYA
+         ========================================== -->
+    <section id="slide-3" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="3">
+      <div class="max-w-6xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center md:text-left">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300">Speaker 2 · Suriya</span>
+            <span class="text-slate-500 font-medium">Modern Fiction's Blind Spot</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary mb-2">Literature & The "Unthinkable"</h2>
+          <p class="font-editorial text-xl text-bright-textSecondary">Why modern realistic fiction excludes climate extremes from serious art</p>
+        </div>
+
+        <!-- 3 Dimension Cards Matching Slide 4 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Card 1: Predictable Realism -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border hover:border-blue-400 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center mb-6">
+                <i data-lucide="book" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif font-bold text-xl text-stone-900 mb-3">Predictable Realism</h3>
+              <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                The modern novel was born alongside bourgeois regularity. Stories prioritize ordinary domestic dilemmas, personal relationships, and predictable routines.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-slate-600 font-mono italic">
+              "To include a catastrophic storm in a modern novel is to risk being dismissed as melodramatic."
+            </div>
+          </div>
+
+          <!-- Card 2: Improbable Extremes -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border hover:border-amber-500 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center mb-6">
+                <i data-lucide="cloud-rain" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif font-bold text-xl text-stone-900 mb-3">Improbable Extremes</h3>
+              <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                Cyclones, mega-droughts, and sudden floods seem "too improbable" for realistic literary fiction, relegating the planet's biggest threats to sci-fi and fantasy.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-slate-600 font-mono italic">
+              "The irony: nature has become radically improbable, while our fiction remains stubbornly predictable."
+            </div>
+          </div>
+
+          <!-- Card 3: Scale Blindness -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border hover:border-emerald-500 transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-6">
+                <i data-lucide="eye-off" class="w-6 h-6"></i>
+              </div>
+              <h3 class="font-serif font-bold text-xl text-stone-900 mb-3">Scale Blindness</h3>
+              <p class="text-sm text-slate-700 leading-relaxed mb-4">
+                Climate change operates across planetary scales and multi-decade epochs. Our narrative instruments are tuned only to individual human life spans.
+              </p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-stone-50 border border-stone-200 text-xs text-slate-600 font-mono italic">
+              "How can a 300-page story about two lovers comprehend a million-year carbon shift?"
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 5 (INDEX 4): SPEAKER 3 - HARI
+         ========================================== -->
+    <section id="slide-4" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="4">
+      <div class="max-w-6xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center md:text-left">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300">Speaker 3 · Hari</span>
+            <span class="text-slate-500 font-medium">Bridging The Divide</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary mb-2">Scientific Reality vs. Cultural Imagination</h2>
+          <p class="font-editorial text-xl text-bright-textSecondary">Closing the dangerous gap delaying collective planetary action</p>
+        </div>
+
+        <!-- Split Screen Comparison (Matching Slide 5) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          
+          <!-- Left: Current Divide -->
+          <div class="p-8 rounded-2xl bg-red-50/50 border border-red-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 border border-red-300 text-xs font-mono font-bold text-red-900 uppercase tracking-wider mb-4">
+                <span>Current Divide</span>
+              </div>
+              <h3 class="font-serif font-bold text-2xl text-stone-900 mb-4">Siloed Knowledge</h3>
+              
+              <ul class="space-y-4">
+                <li class="flex items-start gap-3 text-slate-700 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-red-600 mt-2 shrink-0"></div>
+                  <span><strong>Confined to scientists and policymakers:</strong> Climate data lives in graphs, whitepapers, and COPs rather than everyday imagination.</span>
+                </li>
+                <li class="flex items-start gap-3 text-slate-700 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-red-600 mt-2 shrink-0"></div>
+                  <span><strong>Disasters viewed as isolated accidents:</strong> Each extreme event is treated as bad luck rather than systemic ecological shift.</span>
+                </li>
+                <li class="flex items-start gap-3 text-slate-700 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-red-600 mt-2 shrink-0"></div>
+                  <span><strong>Urgent public response repeatedly delayed:</strong> Information without emotion generates apathy instead of mobilization.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-red-200 text-xs text-red-800 font-mono font-semibold">
+              Status Quo: Paralyzed by lack of narrative resonance
+            </div>
+          </div>
+
+          <!-- Right: Required Shift -->
+          <div class="p-8 rounded-2xl bg-amber-50/70 border border-amber-300 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-200/70 border border-amber-400 text-xs font-mono font-bold text-amber-950 uppercase tracking-wider mb-4">
+                <span>Required Shift</span>
+              </div>
+              <h3 class="font-serif font-bold text-2xl text-stone-900 mb-4">Cultural Awakening</h3>
+              
+              <ul class="space-y-4">
+                <li class="flex items-start gap-3 text-stone-800 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div>
+                  <span><strong>Embed climate into stories and art:</strong> Transform raw data into deeply felt human and community narratives.</span>
+                </li>
+                <li class="flex items-start gap-3 text-stone-800 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div>
+                  <span><strong>Reimagine shared risk and responsibility:</strong> Move past hyper-individualism to recognize collective planetary fate.</span>
+                </li>
+                <li class="flex items-start gap-3 text-stone-800 text-sm">
+                  <div class="w-2 h-2 rounded-full bg-amber-700 mt-2 shrink-0"></div>
+                  <span><strong>Align everyday culture with climate truth:</strong> Make ecological sustainability the core intuition of our civilization.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-amber-300 flex items-center justify-between text-xs text-amber-900 font-bold">
+              <span>The Goal: An awakened public conscience</span>
+              <i data-lucide="sparkles" class="w-4 h-4 text-amber-700"></i>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 6 (INDEX 5): SPEAKER 4 - YOGESH
+         ========================================== -->
+    <section id="slide-5" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="5">
+      <div class="max-w-6xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-8">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300">Speaker 4 · Yogesh</span>
+            <span class="text-slate-500 font-medium">National Climate Strategy</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary">Viksit Bharat 2047 & Climate Resilience</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left: Key Pillars (Matching Slide 6) -->
+          <div class="lg:col-span-7 space-y-4">
+            
+            <!-- Pillar 1 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-emerald-500 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-emerald-50 text-emerald-700 mt-0.5">
+                  <i data-lucide="target" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">Core Imperative</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    National self-reliance and developed-nation status fail if our cities and agriculture are vulnerable to climate breakdown.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-emerald-500 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-emerald-50 text-emerald-700 mt-0.5">
+                  <i data-lucide="trending-down" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">Economic Exposure</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    Unprecedented heatwaves, water stress, and erratic monsoons directly threaten GDP growth, workforce safety, and agricultural yields.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-emerald-500 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-emerald-50 text-emerald-700 mt-0.5">
+                  <i data-lucide="shield-check" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">Resilient Systems</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    Construct climate-proof infrastructure: disaster-resilient transit, vertical farming, decentralized water storage, and clean power grids.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pillar 4 -->
+            <div class="p-5 rounded-xl bg-white border border-bright-border shadow-sm hover:border-emerald-500 transition-all">
+              <div class="flex items-start gap-3.5">
+                <div class="p-2 rounded-lg bg-emerald-50 text-emerald-700 mt-0.5">
+                  <i data-lucide="cpu" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="font-serif font-bold text-stone-900 text-base mb-1">Proactive Readiness</h4>
+                  <p class="text-slate-700 text-sm leading-relaxed">
+                    Move from disaster relief to disaster anticipation — early warning networks, community-level drills, and bioclimatic architecture.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right: Visual Architecture Model -->
+          <div class="lg:col-span-5 relative group">
+            <div class="relative overflow-hidden rounded-2xl border border-bright-border shadow-md bg-stone-100 aspect-[3/4]">
+              <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80" 
+                   alt="Modern sustainable architecture" 
+                   class="w-full h-full object-cover">
+              
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+
+              <!-- Hotspot 1 -->
+              <div class="absolute top-1/4 right-8 group/hotspot">
+                <div class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs animate-bounce cursor-pointer shadow-md">
+                  🌱
+                </div>
+                <div class="hidden group-hover/hotspot:block absolute right-8 top-0 w-48 p-2.5 rounded-lg bg-white/95 backdrop-blur-md border border-emerald-300 text-[11px] text-stone-900 shadow-lg">
+                  <strong>Vertical Agri-Towers</strong><br>Ensures urban food security regardless of erratic monsoon seasons.
+                </div>
+              </div>
+
+              <!-- Hotspot 2 -->
+              <div class="absolute top-1/2 left-8 group/hotspot">
+                <div class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-xs cursor-pointer shadow-md">
+                  ⚡
+                </div>
+                <div class="hidden group-hover/hotspot:block absolute left-8 top-0 w-48 p-2.5 rounded-lg bg-white/95 backdrop-blur-md border border-amber-300 text-[11px] text-stone-900 shadow-lg">
+                  <strong>Solar Skin & Wind Flow</strong><br>Passive cooling reducing grid stress during 45°C+ summer peaks.
+                </div>
+              </div>
+
+              <div class="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-white/95 backdrop-blur-md border border-stone-200 text-xs shadow-md">
+                <div class="flex items-center justify-between text-emerald-800 font-mono font-bold mb-1">
+                  <span>Viksit Bharat Blueprint</span>
+                  <span>Vision 2047</span>
+                </div>
+                <p class="text-slate-700 text-[11px]">Merging economic ambition with zero-emission, climate-adaptive urban masterplans.</p>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 7 (INDEX 6): SPEAKER 5 - PRADEEP
+         ========================================== -->
+    <section id="slide-6" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="6">
+      <div class="max-w-6xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center md:text-left">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 mb-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300">Speaker 5 · Pradeep</span>
+            <span class="text-slate-500 font-medium">Global Agenda 2030</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary mb-2">Alignment with UN Sustainable Development Goals</h2>
+          <p class="font-editorial text-xl text-bright-textSecondary">Connecting India's national vision to global sustainability frameworks</p>
+        </div>
+
+        <!-- 2 Large High-Contrast SDG Cards (Matching Slide 7) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          <!-- SDG 13: Climate Action -->
+          <div class="p-8 rounded-2xl bg-emerald-50/70 border border-emerald-300 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="text-4xl font-black font-display text-emerald-900 tracking-tight">SDG 13</span>
+                <div class="w-12 h-12 rounded-xl bg-[#3F7E44] text-white flex items-center justify-center font-bold text-xl shadow-md">
+                  <i data-lucide="activity" class="w-6 h-6"></i>
+                </div>
+              </div>
+
+              <h3 class="font-serif font-bold text-2xl text-stone-900 mb-2">Climate Action</h3>
+              <p class="text-base text-emerald-900 font-semibold mb-4">Urgent systemic shifts combat climate impacts</p>
+              
+              <ul class="space-y-3 text-sm text-slate-800">
+                <li class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#3F7E44] shrink-0"></i>
+                  <span>Strengthen resilience and adaptive capacity to climate hazards.</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#3F7E44] shrink-0"></i>
+                  <span>Integrate climate change measures into national policies.</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#3F7E44] shrink-0"></i>
+                  <span>Improve education, awareness, and institutional capacity.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-emerald-200 flex items-center justify-between text-xs text-emerald-900 font-bold">
+              <span class="font-mono">Amitav Ghosh's Chapter 1 Mandate</span>
+              <span class="px-2.5 py-1 rounded bg-emerald-200/80 font-bold">Decisive Action</span>
+            </div>
+          </div>
+
+          <!-- SDG 11: Sustainable Cities & Communities -->
+          <div class="p-8 rounded-2xl bg-amber-50/70 border border-amber-300 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <span class="text-4xl font-black font-display text-amber-900 tracking-tight">SDG 11</span>
+                <div class="w-12 h-12 rounded-xl bg-[#FD9D24] text-black flex items-center justify-center font-bold text-xl shadow-md">
+                  <i data-lucide="building" class="w-6 h-6"></i>
+                </div>
+              </div>
+
+              <h3 class="font-serif font-bold text-2xl text-stone-900 mb-2">Sustainable Cities & Communities</h3>
+              <p class="text-base text-amber-900 font-semibold mb-4">Inclusive urban planning builds disaster resilience</p>
+              
+              <ul class="space-y-3 text-sm text-slate-800">
+                <li class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#b45309] shrink-0"></i>
+                  <span>Ensure safe, disaster-resistant affordable housing.</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#b45309] shrink-0"></i>
+                  <span>Safeguard cultural and natural heritage against extremes.</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-[#b45309] shrink-0"></i>
+                  <span>Significantly reduce economic and human losses from disasters.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-amber-200 flex items-center justify-between text-xs text-amber-900 font-bold">
+              <span class="font-mono">Viksit Bharat 2047 Alignment</span>
+              <span class="px-2.5 py-1 rounded bg-amber-200/80 font-bold">Urban Shield</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 8 (INDEX 7): KEY TAKEAWAYS
+         ========================================== -->
+    <section id="slide-7" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative" data-slide-index="7">
+      <div class="max-w-6xl mx-auto w-full">
+        
+        <!-- Header -->
+        <div class="mb-10 text-center md:text-left">
+          <div class="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-amber-800 mb-2">
+            <span>Synthesis</span>
+            <span class="text-slate-500 font-medium">Core Takeaways</span>
+          </div>
+          <h2 class="font-serif text-4xl sm:text-5xl font-bold text-bright-textPrimary mb-2">Key Takeaways from Chapter 1</h2>
+          <p class="font-editorial text-xl text-bright-textSecondary">The core lessons shaping our critical reading and presentation</p>
+        </div>
+
+        <!-- 4 Takeaway Bento Cards (Matching Slide 8) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          
+          <!-- Takeaway 01 -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border shadow-sm hover:border-amber-500 transition-all">
+            <span class="text-xs font-mono font-bold text-amber-700 tracking-wider block mb-2">01 · Cultural Failure</span>
+            <h3 class="font-serif font-bold text-xl text-stone-900 mb-2">Failure of Imagination</h3>
+            <p class="text-slate-700 text-sm leading-relaxed">
+              Climate change is not merely a technical or scientific problem; it stems directly from the limited scope of modern human imagination and storytelling.
+            </p>
+          </div>
+
+          <!-- Takeaway 02 -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border shadow-sm hover:border-amber-500 transition-all">
+            <span class="text-xs font-mono font-bold text-amber-700 tracking-wider block mb-2">02 · Narrative Blindness</span>
+            <h3 class="font-serif font-bold text-xl text-stone-900 mb-2">Dismissing The Extreme</h3>
+            <p class="text-slate-700 text-sm leading-relaxed">
+              Ignoring climate extremes in serious literature and public discourse weakens urgency, keeping society trapped in dangerous complacency.
+            </p>
+          </div>
+
+          <!-- Takeaway 03 -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border shadow-sm hover:border-amber-500 transition-all">
+            <span class="text-xs font-mono font-bold text-amber-700 tracking-wider block mb-2">03 · National Resilience</span>
+            <h3 class="font-serif font-bold text-xl text-stone-900 mb-2">Viksit Bharat Demands</h3>
+            <p class="text-slate-700 text-sm leading-relaxed">
+              India's 2047 economic vision can only succeed if supported by proactive, climate-proof infrastructure and ecological readiness.
+            </p>
+          </div>
+
+          <!-- Takeaway 04 -->
+          <div class="p-6 rounded-2xl bg-white border border-bright-border shadow-sm hover:border-amber-500 transition-all">
+            <span class="text-xs font-mono font-bold text-amber-700 tracking-wider block mb-2">04 · Shared Action</span>
+            <h3 class="font-serif font-bold text-xl text-stone-900 mb-2">Cultural & SDG Synergy</h3>
+            <p class="text-slate-700 text-sm leading-relaxed">
+              Integrating awareness into everyday culture powers sustainable communities (SDG 11) and decisive climate action (SDG 13).
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SLIDE 9 (INDEX 8): CONCLUSION & THANK YOU
+         ========================================== -->
+    <section id="slide-8" class="presentation-slide min-h-screen flex items-center justify-center px-4 sm:px-8 py-20 relative text-center" data-slide-index="8">
+      <div class="max-w-4xl mx-auto relative z-10">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 border border-amber-300 text-xs uppercase tracking-widest text-amber-900 font-semibold mb-8">
+          <span>Conclusion</span>
+        </div>
+
+        <h2 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-stone-900 mb-6 leading-tight">
+          "Imagination Must Catch Up With Reality"
+        </h2>
+
+        <p class="font-editorial text-xl sm:text-2xl text-slate-700 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Bringing climate awareness into culture, daily choices, and national planning turns the unthinkable into decisive action.
+        </p>
+
+        <!-- Golden Highlight Thank You -->
+        <div class="mb-12">
+          <span class="font-serif text-4xl sm:text-5xl font-bold text-amber-700 tracking-wide">Thank You</span>
+        </div>
+
+        <!-- Team Credits -->
+        <div class="pt-8 border-t border-bright-border max-w-xl mx-auto">
+          <p class="text-xs text-slate-500 uppercase tracking-widest mb-3 font-bold">Presented by</p>
+          <div class="flex flex-wrap items-center justify-center gap-3 text-sm text-stone-800 font-semibold">
+            <span class="text-amber-800">Kiran</span> ·
+            <span class="text-amber-800">Suriya</span> ·
+            <span class="text-amber-800">Hari</span> ·
+            <span class="text-amber-800">Yogesh</span> ·
+            <span class="text-amber-800">Pradeep</span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <button onclick="openQAModal()" class="px-5 py-2.5 rounded-full bg-white hover:bg-stone-50 border border-bright-border shadow-sm text-xs text-stone-800 font-semibold transition-all flex items-center gap-2">
+              <i data-lucide="help-circle" class="w-4 h-4 text-amber-700"></i>
+              <span>Rehearsal Q&A (Evaluator Prep)</span>
+            </button>
+            <button onclick="openSourcesModal()" class="px-5 py-2.5 rounded-full bg-white hover:bg-stone-50 border border-bright-border shadow-sm text-xs text-stone-800 font-semibold transition-all flex items-center gap-2">
+              <i data-lucide="link" class="w-4 h-4 text-slate-500"></i>
+              <span>Image & Text Sources</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       MODAL 1: REHEARSAL Q&A FOR EVALUATORS
+       ========================================== -->
+  <div id="qa-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border border-bright-border rounded-2xl max-w-2xl w-full p-6 max-h-[85vh] overflow-y-auto shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-bright-border">
+        <div class="flex items-center gap-2">
+          <i data-lucide="help-circle" class="w-5 h-5 text-amber-700"></i>
+          <h3 class="font-serif font-bold text-lg text-stone-900">Evaluator Q&A Cheat Sheet</h3>
+        </div>
+        <button onclick="closeQAModal()" class="p-1 rounded-lg text-slate-400 hover:text-black">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="mt-4 space-y-4 text-sm">
+        <div class="p-4 rounded-xl bg-stone-50 border border-stone-200">
+          <strong class="text-amber-900 block mb-1">Q1: Why does Amitav Ghosh call it "The Great Derangement"?</strong>
+          <p class="text-slate-700 text-xs leading-relaxed">
+            Because future generations looking back will conclude that our era was deranged for recognizing climate collapse yet deliberately banishing it from art, literature, and politics.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-stone-50 border border-stone-200">
+          <strong class="text-amber-900 block mb-1">Q2: How does the 1978 Delhi tornado prove his point?</strong>
+          <p class="text-slate-700 text-xs leading-relaxed">
+            Ghosh experienced it personally. It was violent and shocking, yet when he tried to write about it in fiction, it felt "unbelievable." Our minds are conditioned to accept only mild, predictable events in literature.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-stone-50 border border-stone-200">
+          <strong class="text-amber-900 block mb-1">Q3: How does this link with Viksit Bharat 2047?</strong>
+          <p class="text-slate-700 text-xs leading-relaxed">
+            Economic development cannot happen in a vacuum. A developed India in 2047 will require sustainable cities, resilient food systems, and disaster mitigation, directly supporting SDGs 11 and 13.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: SOURCES & CITATIONS
+       ========================================== -->
+  <div id="sources-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white border border-bright-border rounded-2xl max-w-xl w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between pb-4 border-b border-bright-border">
+        <h3 class="font-serif font-bold text-lg text-stone-900">Image Sources & Bibliography</h3>
+        <button onclick="closeSourcesModal()" class="p-1 rounded-lg text-slate-400 hover:text-black">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="mt-4 space-y-3 text-xs text-slate-700">
+        <div class="p-3 rounded-lg bg-stone-50 border border-stone-200">
+          <strong class="text-stone-900 block mb-0.5">Primary Literature:</strong>
+          <span>Amitav Ghosh, <em>The Great Derangement: Climate Change and the Unthinkable</em> (Chapter 1), University of Chicago Press, 2016.</span>
+        </div>
+        <div class="p-3 rounded-lg bg-stone-50 border border-stone-200">
+          <strong class="text-stone-900 block mb-0.5">Dark Storm Clouds (Slide 3):</strong>
+          <a href="https://www.pexels.com" target="_blank" class="text-amber-700 hover:underline">Pexels Free Photo: 17835164</a>
+        </div>
+        <div class="p-3 rounded-lg bg-stone-50 border border-stone-200">
+          <strong class="text-stone-900 block mb-0.5">Vertical Farming Tower (Slide 6):</strong>
+          <a href="https://www.studiomatrx.org" target="_blank" class="text-amber-700 hover:underline">Studio Matrx: Vertical Farming Towers</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
